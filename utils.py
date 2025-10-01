@@ -16,7 +16,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder, PromptTemplate
 from langchain.schema import HumanMessage, AIMessage
 from langchain_openai import OpenAIEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from typing import List
@@ -99,12 +99,13 @@ def create_rag_chain(db_name, use_streaming=True):
     embeddings = OpenAIEmbeddings()
 
     # すでに対象のデータベースが作成済みの場合は読み込み、未作成の場合は新規作成する
+    print("processing db:", db_name)
     if os.path.isdir(db_name):
         print("データベースが既に存在")
-        db = Chroma(persist_directory=".db", embedding_function=embeddings)
+        db = Chroma(persist_directory=db_name, embedding_function=embeddings)
     else:
         print("データベースが存在しない")
-        db = Chroma.from_documents(splitted_docs, embedding=embeddings, persist_directory=".db")
+        db = Chroma.from_documents(splitted_docs, embedding=embeddings, persist_directory=db_name)
     retriever = db.as_retriever(search_kwargs={"k": ct.TOP_K})
 
     question_generator_template = ct.SYSTEM_PROMPT_CREATE_INDEPENDENT_TEXT
