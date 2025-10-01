@@ -26,7 +26,8 @@ from langchain.agents import AgentType, initialize_agent
 from langchain_community.document_loaders.csv_loader import CSVLoader
 from langchain_community.retrievers import BM25Retriever
 from langchain.retrievers import EnsembleRetriever
-from docx import Document
+from docx import Document as DocxDocument
+from langchain_core.documents import Document
 from langchain.output_parsers import CommaSeparatedListOutputParser
 from langchain.chains import LLMChain
 import datetime
@@ -456,7 +457,7 @@ def adjust_reference_data(docs, docs_history):
             if row_history_dict["従業員ID"] == employee_id:
                 same_employee_inquiries.append(row_history_dict)
 
-        new_doc = Document()
+        new_doc = Document(page_content="", metadata={})
 
         if same_employee_inquiries:
             # 従業員情報と問い合わせ対応履歴の結合テキストを生成
@@ -471,7 +472,6 @@ def adjust_reference_data(docs, docs_history):
             new_doc.page_content = doc
         else:
             new_doc.page_content = row.page_content
-        new_doc.metadata = {}
 
         docs_all.append(new_doc)
     
