@@ -100,8 +100,10 @@ def create_rag_chain(db_name, use_streaming=True):
 
     # すでに対象のデータベースが作成済みの場合は読み込み、未作成の場合は新規作成する
     if os.path.isdir(db_name):
+        print("データベースが既に存在")
         db = Chroma(persist_directory=".db", embedding_function=embeddings)
     else:
+        print("データベースが存在しない")
         db = Chroma.from_documents(splitted_docs, embedding=embeddings, persist_directory=".db")
     retriever = db.as_retriever(search_kwargs={"k": ct.TOP_K})
 
