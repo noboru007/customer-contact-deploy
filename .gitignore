@@ -143,6 +143,10 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.desktop.ini
+.desktopini
+.db
+.streamlit
 
 # Spyder project settings
 .spyderproject
