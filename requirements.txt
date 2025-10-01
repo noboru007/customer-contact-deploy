@@ -58,7 +58,7 @@ langchain-chroma==0.2.6
 langchain-core==0.3.76
 langchain-openai==0.3.14
 langchain-text-splitters==0.3.8
-langsmith==0.3.39
+langsmith==0.3.45
 lxml==5.4.0
 markdown-it-py==3.0.0
 MarkupSafe==3.0.2
